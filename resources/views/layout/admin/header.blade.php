@@ -49,6 +49,9 @@
 </head>
 
 <body>
+@php
+$authUser = auth()->user();
+@endphp
   <!-- Layout wrapper -->
   <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
@@ -136,11 +139,17 @@
                   <div data-i18n="Form Layouts">Site Settings</div>
                 </a>
                 <ul class="menu-sub">
-                  <li class="menu-item">
-                      <a href="{{ url('admin/header') }}" class="menu-link">
-                      <div data-i18n="Vertical Form">Header</div>
-                      </a>
-                  </li>
+                    @if($authUser->role_id === 1)
+                        <li class="menu-item">
+                            <a href="{{ url('admin/header') }}" class="menu-link">
+                                <div data-i18n="Vertical Form">Header</div>
+                            </a>
+                        </li>
+                    @endif
+
+{{--                    @if(in_array($authUser->role_id,[2,3]))--}}
+{{--                        --}}
+{{--                    @endif--}}
                   <li class="menu-item d-none">
                       <a href="{{ url('admin/menu') }}" class="menu-link">
                       <div data-i18n="Horizontal Form">Menu/Navbar</div>
@@ -210,7 +219,7 @@
                 <div data-i18n="Tables">Add New Services</div>
                 </a>
             </li>
-           
+
             <li class="menu-item">
                 <a href="{{ url('admin/categories') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
@@ -239,7 +248,7 @@
                 <div data-i18n="Tables">Add New Project</div>
                 </a>
             </li>
-           
+
             <li class="menu-item">
                 <a href="{{ url('admin/projectcategories') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
@@ -350,7 +359,7 @@
                     <div data-i18n="Tabs &amp; Pills">Nav &amp; Tabs Simple</div>
                     </a>
                 </li>
-                
+
                 </ul>
             </li>
 
@@ -434,7 +443,7 @@
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{url('admin/accsetting')}}">
+                    <a class="dropdown-item" href="{{url('admin/settings')}}">
                       <i class="bx bx-cog me-2"></i>
                       <span class="align-middle">Settings</span>
                     </a>

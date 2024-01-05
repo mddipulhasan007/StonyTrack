@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -86,10 +87,13 @@ Route::any('admin/addnewteam', [App\Http\Controllers\AdminController::class, 'ad
 Route::any('admin/editteam/{id}', [App\Http\Controllers\AdminController::class, 'editteam'])->name('editteam');
 Route::any('admin/removeteam/{id}', [App\Http\Controllers\AdminController::class, 'removeteam'])->name('removeteam');
 
-Route::any('admin/accsetting', [App\Http\Controllers\AdminController::class, 'accsetting'])->name('accsetting');
+Route::get('admin/settings', [App\Http\Controllers\AdminController::class, 'settings'])->name('settings');
+Route::post('admin/settings', [App\Http\Controllers\AdminController::class, 'update_profile'])->name('profile.update');
 
 Route::get('admin/backup-database', [App\Http\Controllers\AdminController::class, 'backupDatabase'])->name('admin.backup.database');
 
+Route::get('admin/users/{user}/delete', [UserController::class,'destroy'])->name('users.delete');
+Route::resource('admin/users', UserController::class);
 
 Route::get('/create-storage-link', function () {
     // Run the storage:link command

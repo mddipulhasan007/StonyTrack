@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -51,6 +53,13 @@ class AdminController extends Controller
 
     public function header(Request $request)
     {
+        if (auth()->user()->role_id != 1){
+            abort('403');
+        }
+//        if (!in_array(auth()->user->role_id,[2,3])){
+//            abort('403');
+//        }
+
         $header = Header::first();
 
         if (!$header) {
@@ -140,7 +149,7 @@ class AdminController extends Controller
             $slider2->id = 2;
             $slider3->id = 3;
             $slider4->id = 4;
-                        
+
             // Update Slider 1 data
             if ($request->hasFile('slider1')) {
                 $slider1Path = $request->file('slider1')->store('slider_images', 'public');
@@ -626,13 +635,13 @@ class AdminController extends Controller
         return redirect()->route('categories')->with('success', 'Category removed successfully.');
     }
 
-    //project 
+    //project
 
     public function projects(Request $request){
         $projects = Project::all();
         return view('admin.projects.index', compact('projects'));
     }
-    
+
     public function addproject(Request $request)
     {
         if ($request->isMethod('post')) {
@@ -643,10 +652,10 @@ class AdminController extends Controller
                 'pdf_url' => 'nullable|url',
                 'category_id' => 'required|exists:projectcategories,id',
             ]);
-    
+
             // Upload feature image and save to the database
             $featureImagePath = $request->file('feature_image')->store('projects', 'public');
-    
+
             Project::create([
                 'title' => $request->input('title'),
                 'slug' => Str::slug($request->input('title')),
@@ -655,21 +664,21 @@ class AdminController extends Controller
                 'category_id' => $request->input('category_id'),
                 'feature_image' => $featureImagePath,
             ]);
-    
+
             return redirect()->route('projects')->with('success', 'Project added successfully');
         }
-    
+
         // Fetch categories to be used in the form
         $categories = ProjectCategory::all();
-    
+
         return view('admin.projects.add-project', compact('categories'));
     }
-    
+
     public function editproject(Request $request, $id)
     {
         // Find the project by ID
         $project = Project::findOrFail($id);
-    
+
         if ($request->isMethod('post')) {
             $request->validate([
                 'feature_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -678,7 +687,7 @@ class AdminController extends Controller
                 'pdf_url' => 'nullable|url',
                 'category_id' => 'required|exists:projectcategories,id',
             ]);
-    
+
             // Update project data
             $projectData = [
                 'title' => $request->input('title'),
@@ -687,43 +696,43 @@ class AdminController extends Controller
                 'pdf_url' => $request->input('pdf_url'),
                 'category_id' => $request->input('category_id'),
             ];
-    
+
             // Update feature image if provided
             if ($request->hasFile('feature_image')) {
                 // Upload feature image and save to the database
                 $featureImagePath = $request->file('feature_image')->store('projects', 'public');
                 $projectData['feature_image'] = $featureImagePath;
             }
-    
+
             // Update the project
             $project->update($projectData);
-    
+
             return redirect()->route('projects')->with('success', 'Project updated successfully');
         }
-    
+
         // Fetch categories to be used in the form
         $categories = ProjectCategory::all();
-    
+
         // Pass the existing feature image path to the view
         $featurePath = $project->feature_image;
-    
+
         return view('admin.projects.edit-project', compact('project', 'categories', 'featurePath'));
     }
-    
+
     public function removeproject($id)
     {
         $project = Project::findOrFail($id);
         $project->delete();
-    
+
         return redirect()->route('projects')->with('success', 'Project removed successfully.');
     }
-    
+
     public function projectcategories(Request $request)
     {
         $categories = ProjectCategory::all();
         return view('admin.projects.cat-manage', compact('categories'));
     }
-    
+
     public function addprojectcategory(Request $request)
     {
         if ($request->isMethod('post')) {
@@ -731,50 +740,50 @@ class AdminController extends Controller
                 'cat_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'name' => 'required|string|unique:projectcategories',
             ]);
-    
+
             $catImagePath = $request->file('cat_image')->store('projectcategories', 'public');
-    
+
             ProjectCategory::create([
                 'cat_image' => $catImagePath,
                 'name' => $request->input('name'),
                 'slug' => Str::slug($request->input('name')),
             ]);
-    
+
             return redirect()->route('projectcategories')->with('success', 'Category added successfully');
         }
-    
+
         return view('admin.projects.add-category');
     }
-    
+
     public function editprojectcategory(Request $request, $id)
     {
         $category = ProjectCategory::findOrFail($id);
-    
+
         if ($request->isMethod('post')) {
             $request->validate([
                 'cat_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'name' => 'required|string|unique:projectcategories,name,' . $category->id,
             ]);
-    
+
             $catImagePath = $request->file('cat_image')->store('projectcategories', 'public');
-    
+
             $category->update([
                 'cat_image' => $catImagePath,
                 'name' => $request->input('name'),
                 'slug' => Str::slug($request->input('name')),
             ]);
-    
+
             return redirect()->route('projectcategories')->with('success', 'Category updated successfully');
         }
-    
+
         return view('admin.projects.edit-category', ['category' => $category]);
     }
-    
+
     public function removeprojectcategory($id)
     {
         $category = ProjectCategory::findOrFail($id);
         $category->delete();
-    
+
         return redirect()->route('projectcategories')->with('success', 'Category removed successfully.');
     }
 
@@ -857,10 +866,31 @@ class AdminController extends Controller
         }
     }
 
-    public function accsetting()
+    public function settings()
     {
-        
-        return view('admin.acc-setting');
+        $user = auth()->user();
+        return view('admin.acc-setting',compact('user'));
+    }
+    public function update_profile( Request $request)
+    {
+        $user = User::find(auth()->id());
+        if (empty($user)){
+            abort('404');
+        }
+        try {
+            $updateData = [
+                'name'=>$request->name,
+                'email'=>$request->email,
+            ];
+            if (!empty($request->password)){
+                $updateData['password']= Hash::make($request->password);
+            }
+            $user->update($updateData);
+        }catch (\Exception $e){
+            dd($e->getMessage());
+        }
+
+        return redirect()->route('settings');
     }
 
 }

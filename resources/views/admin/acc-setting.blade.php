@@ -59,15 +59,16 @@
           <!-- /Logo -->
           <h4 class="mb-2">Setting Change 🚀</h4>
 
-          <form id="formAuthentication" class="mb-3" action="" method="POST">
-            <div class="mb-3">
+          <form id="formAuthentication" class="mb-3" action="{{route('profile.update')}}" method="POST">
+            @csrf
+              <div class="mb-3">
               <label for="username" class="form-label">Change Name</label>
-              <input type="text" class="form-control" id="name" name="name" placeholder="Enter your Name" value="Md Monowarul Islam"
+              <input type="text" class="form-control" id="name" name="name" placeholder="Enter your Name" value="{{old('email',$user->name??"")}}"
                 autofocus />
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Change Email</label>
-              <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" value="admin@stonytrack.com" />
+              <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" value="{{old('email',$user->email??"")}}" />
             </div>
             <div class="mb-3 form-password-toggle">
               <label class="form-label" for="password">Chnage Password</label>
@@ -80,12 +81,12 @@
             </div>
 
             <div class="mb-3">
-             
+
             </div>
-            <button type="button" class="btn btn-primary d-grid w-100">Save Change</button>
+            <button type="submit" class="btn btn-primary d-grid w-100">Update Profile</button>
           </form>
 
-          
+
         </div>
       </div>
       <!-- Register Card -->

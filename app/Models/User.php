@@ -19,6 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'role_id',
         'email',
         'password',
     ];
@@ -31,6 +32,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    public const ROLES =[
+        '1' =>"Admin",
+        '2' =>"Author",
+        '3' =>"Editor",
     ];
 
     /**
