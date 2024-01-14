@@ -16,6 +16,9 @@ use App\Models\ServiceContent;
 use App\Models\Service;
 use App\Models\AboutPage;
 use App\Models\Team;
+use App\Models\Banner;
+use App\Models\News;
+use App\Models\Notice;
 use App\Models\Category;
 use App\Models\Project;
 use App\Models\ProjectCategory;
@@ -27,6 +30,8 @@ class HomeController extends Controller
         // Retrieve the header data from the database
         $header = Header::first();
         $footer = Footer::first();
+
+        $banner = Banner::all();
 
         $slider1 = Slider::findOrNew(1);
         $slider2 = Slider::findOrNew(2);
@@ -52,6 +57,7 @@ class HomeController extends Controller
         return view('frontend.index', [
             'header' => $header,
             'footer' => $footer,
+            'banner' => $banner,
             'slider1' => $slider1,
             'slider2' => $slider2,
             'slider3' => $slider3,
@@ -232,7 +238,16 @@ class HomeController extends Controller
     {
         $header = Header::first();
         $footer = Footer::first();
+        $news = News::all();
+        $notice = Notice::all();
         $categories = Category::all();
-        return view('frontend.media-news', ['categories' => $categories, 'header' => $header, 'footer' => $footer,]);
+        return view('frontend.media-news', 
+        [
+        'categories' => $categories,
+        'header' => $header,
+        'footer' => $footer,
+        'news' => $news,
+        'notice' => $notice,
+        ]);
     }
 }

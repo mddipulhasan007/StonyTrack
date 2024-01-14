@@ -1,10 +1,14 @@
 @include('layout.admin.header')
 
-<div class="container-xxl">
+@php
+$authUser = auth()->user();
+@endphp
+
+<div class="container-xxl mb-5">
     <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
             <!-- Register Card -->
-           <table class="table table-responsive">
+           <table class="table table-responsive mb-5">
                <thead>
                 <tr>
                     <th>Name</th>
@@ -21,11 +25,24 @@
                            <td>{{$user->email??""}}</td>
                            <td>{{\App\Models\User::ROLES[$user->role_id]??"N/A"}}</td>
                            <td>
-                               <a href="{{route('users.edit',$user->id)}}">Edit</a>
-                               @if($user->id != 1)
-                                   <a class="text-danger" href="{{route('users.delete',['user'=>$user->id])}}">Delete</a>
-                               @endif
-                           </td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                    </button>
+                                    @if (auth()->user()->role_id == 1)
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{{ route('users.edit', $user->id) }}">
+                                                <i class="bx bx-edit-alt me-1"></i> Edit
+                                            </a>
+                                            @if ($user->id != 1)
+                                                <a class="dropdown-item text-danger" href="{{ route('users.delete', ['user' => $user->id]) }}">
+                                                    <i class="bx bx-trash me-1"></i> Delete
+                                                </a>
+                                            @endif
+                                        </div>
+                                    @endif
+                                </div>
+                            </td>
                        </tr>
                    @endforeach
                @else

@@ -1,4 +1,8 @@
 @include('layout.admin.header')
+
+@php
+$authUser = auth()->user();
+@endphp
 <!-- Content wrapper -->
 <div class="content-wrapper">
   <!-- Content -->
@@ -44,10 +48,12 @@
                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                 <i class="bx bx-dots-vertical-rounded"></i>
                             </button>
+                            @if(in_array($authUser->role_id,[1,3]))
                             <div class="dropdown-menu">
                                 <a class="dropdown-item d-none" href="#"><i class="bx bx-edit-alt me-1"></i> Edit</a>
                                 <a class="dropdown-item text-danger" href="{{ route('admin.contact.remove', ['id' => $contact->id]) }}"><i class="bx bx-trash me-1"></i> Delete</a>
                             </div>
+                            @endif
                         </div>
                     </td>
                 </tr>

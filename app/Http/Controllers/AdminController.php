@@ -25,6 +25,9 @@ use App\Models\EmailSetting;
 use App\Models\AboutPage;
 use App\Models\AboutContent;
 use App\Models\ServiceContent;
+use App\Models\News;
+use App\Models\Banner;
+use App\Models\Notice;
 use App\Models\Team;
 use App\Models\Project;
 use App\Models\ProjectCategory;
@@ -48,12 +51,13 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+        $aboutPage = AboutPage::firstOrNew();
+        return view('admin.index', compact('aboutPage'));
     }
 
     public function header(Request $request)
     {
-        if (auth()->user()->role_id != 1){
+        if (!in_array(auth()->user->role_id,[1,3])){
             abort('403');
         }
 //        if (!in_array(auth()->user->role_id,[2,3])){
@@ -102,6 +106,84 @@ class AdminController extends Controller
         }
 
         return view('admin.home.header', ['header' => $header]);
+    }
+
+    public function banners(Request $request){
+        $banner = Banner::all();
+        return view('admin.banner.index', 
+            compact('banner')
+        );
+    }
+
+    public function addnewbanner(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'banner_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'main_title' => 'required|string',
+                'caption_title' => 'required|string',
+                'services_url' => 'required|string',
+                'contact_url' => 'required|string',
+            ]);
+
+            $bannerImagePath = $request->file('banner_image')->store('banner', 'public');
+
+            Banner::create([
+                'banner_image' => $bannerImagePath,
+                'main_title' => $request->input('main_title'),
+                'caption_title' => $request->input('caption_title'),
+                'services_url' => $request->input('services_url'),
+                'contact_url' => $request->input('contact_url'),
+            ]);
+
+            return redirect()->route('banners')->with('success', 'Slider added successfully');
+        }
+
+        return view('admin.banner.add-banner-slider');
+    }
+
+    public function editbanner(Request $request, $id)
+    {
+        $banner = Banner::findOrFail($id);
+
+        if ($request->isMethod('post')) {
+            $rules = [
+                'main_title' => 'required|string',
+                'caption_title' => 'required|string',
+                'services_url' => 'required|string',
+                'contact_url' => 'required|string',
+            ];
+
+            if ($request->hasFile('banner_image')) {
+                $rules['banner_image'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+            }
+
+            $request->validate($rules);
+
+            $banner->update([
+                'main_title' => $request->input('main_title'),
+                'caption_title' => $request->input('caption_title'),
+                'services_url' => $request->input('services_url'),
+                'contact_url' => $request->input('contact_url'),
+            ]);
+
+            if ($request->hasFile('banner_image')) {
+                $bannerImagePath = $request->file('banner_image')->store('banner', 'public');
+                $banner->update(['banner_image' => $bannerImagePath]);
+            }
+
+            return redirect()->route('banners')->with('success', 'Slider updated successfully');
+        }
+
+        return view('admin.banner.edit-banner-slider', ['banner' => $banner, 'bannerPath' => $banner->banner_image]);
+    }
+
+    public function removebanner($id)
+    {
+        $banner = Banner::findOrFail($id);
+        $banner->delete();
+
+        return redirect()->route('banners')->with('success', 'Slider removed successfully.');
     }
 
     public function slider(Request $request)
@@ -372,6 +454,133 @@ class AdminController extends Controller
 
         return redirect()->route('teams')->with('success', 'Team removed successfully.');
     }
+
+    public function newses(Request $request){
+        $news = News::all();
+        return view('admin.news.index', 
+            compact('news')
+        );
+    }
+
+    public function notices(Request $request){
+        $notice = Notice::all();
+        return view('admin.notice.index', 
+            compact('notice')
+        );
+    }
+
+    public function addnewnews(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'news_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'title' => 'required|string',
+                'video_iframe' => 'required|string',
+            ]);
+
+            $newsImagePath = $request->file('news_image')->store('news', 'public');
+
+            News::create([
+                'news_image' => $newsImagePath,
+                'title' => $request->input('title'),
+                'video_iframe' => $request->input('video_iframe'),
+            ]);
+
+            return redirect()->route('newses')->with('success', 'News added successfully');
+        }
+
+        return view('admin.news.add-news');
+    }
+
+    public function editnews(Request $request, $id)
+    {
+        $news = News::findOrFail($id);
+
+        if ($request->isMethod('post')) {
+            $rules = [
+                'title' => 'required|string',
+                'video_iframe' => 'required|string',
+            ];
+
+            if ($request->hasFile('news_image')) {
+                $rules['news_image'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+            }
+
+            $request->validate($rules);
+
+            $news->update([
+                'title' => $request->input('title'),
+                'video_iframe' => $request->input('video_iframe'),
+            ]);
+
+            if ($request->hasFile('news_image')) {
+                $newsImagePath = $request->file('news_image')->store('news', 'public');
+                $news->update(['news_image' => $newsImagePath]);
+            }
+
+            return redirect()->route('newses')->with('success', 'News updated successfully');
+        }
+
+        return view('admin.news.edit-news', ['news' => $news, 'newsPath' => $news->news_image]);
+    }
+
+    public function removenews($id)
+    {
+        $news = News::findOrFail($id);
+        $news->delete();
+
+        return redirect()->route('newses')->with('success', 'News removed successfully.');
+    }
+
+    public function addnewnotice(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'title' => 'required|string',
+                'pdf_url' => 'required|string',
+            ]);
+
+            Notice::create([
+                'title' => $request->input('title'),
+                'pdf_url' => $request->input('pdf_url'),
+            ]);
+
+            return redirect()->route('notices')->with('success', 'Notice added successfully');
+        }
+
+        return view('admin.notice.add-notice');
+    }
+
+    public function editnotice(Request $request, $id)
+    {
+        $notice = Notice::findOrFail($id);
+
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'title' => 'required|string',
+                'pdf_url' => 'required|string',
+            ]);
+
+            $notice->update([
+                'title' => $request->input('title'),
+                'pdf_url' => $request->input('pdf_url'),
+            ]);
+
+            return redirect()->route('notices')->with('success', 'Notice updated successfully');
+        }
+
+        return view('admin.notice.edit-notice', ['notice' => $notice]);
+    }
+
+    public function removenotice($id)
+    {
+        $notice = Notice::findOrFail($id);
+        $notice->delete();
+
+        return redirect()->route('notices')->with('success', 'Notice removed successfully.');
+    }
+
+
 
     public function aboutcontent()
     {

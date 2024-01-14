@@ -35,6 +35,11 @@ Route::any('admin/header', [App\Http\Controllers\AdminController::class, 'header
 Route::any('admin/slider', [App\Http\Controllers\AdminController::class, 'slider'])->name('slider');
 Route::any('admin/footer', [App\Http\Controllers\AdminController::class, 'footer'])->name('footer');
 
+Route::any('admin/banners', [App\Http\Controllers\AdminController::class, 'banners'])->name('banners');
+Route::any('admin/addnewbanner', [App\Http\Controllers\AdminController::class, 'addnewbanner'])->name('addnewbanner');
+Route::any('admin/editbanner/{id}', [App\Http\Controllers\AdminController::class, 'editbanner'])->name('editbanner');
+Route::any('admin/removebanner/{id}', [App\Http\Controllers\AdminController::class, 'removebanner'])->name('removebanner');
+
 Route::any('admin/brands', [App\Http\Controllers\AdminController::class, 'brands'])->name('brands');
 Route::any('admin/addnewbrandlogo', [App\Http\Controllers\AdminController::class, 'addnewbrandlogo'])->name('addnewbrandlogo');
 Route::any('admin/editBrandLogo/{id}', [App\Http\Controllers\AdminController::class, 'editBrandLogo'])->name('editBrandLogo');
@@ -86,6 +91,16 @@ Route::any('admin/teams', [App\Http\Controllers\AdminController::class, 'teams']
 Route::any('admin/addnewteam', [App\Http\Controllers\AdminController::class, 'addnewteam'])->name('addnewteam');
 Route::any('admin/editteam/{id}', [App\Http\Controllers\AdminController::class, 'editteam'])->name('editteam');
 Route::any('admin/removeteam/{id}', [App\Http\Controllers\AdminController::class, 'removeteam'])->name('removeteam');
+
+Route::any('admin/newses', [App\Http\Controllers\AdminController::class, 'newses'])->name('newses');
+Route::any('admin/addnewnews', [App\Http\Controllers\AdminController::class, 'addnewnews'])->name('addnewnews');
+Route::any('admin/editnews/{id}', [App\Http\Controllers\AdminController::class, 'editnews'])->name('editnews');
+Route::any('admin/removenews/{id}', [App\Http\Controllers\AdminController::class, 'removenews'])->name('removenews');
+
+Route::any('admin/notices', [App\Http\Controllers\AdminController::class, 'notices'])->name('notices');
+Route::any('admin/addnewnotice', [App\Http\Controllers\AdminController::class, 'addnewnotice'])->name('addnewnotice');
+Route::any('admin/editnotice/{id}', [App\Http\Controllers\AdminController::class, 'editnotice'])->name('editnotice');
+Route::any('admin/removenotice/{id}', [App\Http\Controllers\AdminController::class, 'removenotice'])->name('removenotice');
 
 Route::get('admin/settings', [App\Http\Controllers\AdminController::class, 'settings'])->name('settings');
 Route::post('admin/settings', [App\Http\Controllers\AdminController::class, 'update_profile'])->name('profile.update');

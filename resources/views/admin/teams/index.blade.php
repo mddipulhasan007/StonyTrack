@@ -1,4 +1,7 @@
 @include('layout.admin.header')
+@php
+$authUser = auth()->user();
+@endphp
 <!-- Content wrapper -->
 <div class="content-wrapper">
   <!-- Content -->
@@ -10,7 +13,9 @@
     <div class="card">
     <div class="card-header d-flex align-items-center justify-content-between">
       <h5 class="card-header">Manage Teams</h5>
+      @if(in_array($authUser->role_id,[1,3]))
       <small class="text-muted float-end"><a class="btn btn-primary" href="{{ url('admin/addnewteam') }}">Add New Team</a></small>
+      @endif
     </div>
       <div class="table-responsive text-nowrap" style="min-height:300px;">
         <table class="table">
@@ -39,11 +44,12 @@
                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                 <i class="bx bx-dots-vertical-rounded"></i>
                             </button>
+                            @if(in_array($authUser->role_id,[1,3]))
                             <div class="dropdown-menu">
-                                <a class="dropdown-item d-none" href=""><i class="bx bxs-show me-1"></i> View</a>
                                 <a class="dropdown-item" href="{{ route('editteam', ['id' => $team->id]) }}"><i class="bx bx-edit-alt me-1"></i> Edit</a>
                                 <a class="dropdown-item text-danger" href="{{ route('removeteam', ['id' => $team->id]) }}"><i class="bx bx-trash me-1"></i> Delete</a>
                             </div>
+                            @endif
                         </div>
                     </td>
                 </tr>

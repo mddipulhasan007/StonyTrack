@@ -1,77 +1,23 @@
 
     <div class="banner-carousel banner-carousel banner-carousel-1 mb-0">
-    <div class="banner-carousel-item" style="background-image: url({{ $slider1->image_path ? asset('storage/' . $slider1->image_path) : asset('assets/images/slider-main/banner-1.jpg') }})">
-        <div class="slider-content text-right">
-          <div class="container h-100">
-            <div class="row align-items-center h-100">
-              <div class="col-md-12">
-                <h2 class="slide-title" data-animation-in="slideInLeft">{{ $slider1->caption_title }}</h2>
-                <h3 class="slide-sub-title" data-animation-in="slideInRight">{{ $slider1->main_title }}</h3>
-                <p data-animation-in="slideInLeft" data-duration-in="1.2">
-                  <a href="{{ $slider1->services_url }}" class="slider btn btn-primary">Our Services</a>
-                  <a href="{{ $slider1->contact_url }}" class="slider btn btn-primary border">Contact Now</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="banner-carousel-item" style="background-image: url({{ $slider2->image_path ? asset('storage/' . $slider2->image_path) : asset('assets/images/slider-main/banner-2.jpg') }})">
-        <div class="slider-content text-right">
-          <div class="container h-100">
-            <div class="row align-items-center h-100">
-              <div class="col-md-12">
-                <h3 class="slide-title" data-animation-in="fadeIn">{{ $slider2->caption_title }}</h3>
-                <h3 class="slide-sub-title" data-animation-in="slideInLeft">{{ $slider2->main_title }}</h3>
-                <!-- <p class="slider-description lead" data-animation-in="slideInRight">We will deal with your future that
-                  determines how you archives success</p> -->
-                <p data-animation-in="slideInRight">
-                  <a href="{{ $slider2->services_url }}" class="slider btn btn-primary border">Our Services</a>
-                  <a href="{{ $slider2->contact_url }}" class="slider btn btn-primary border">Contact Us</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="banner-carousel-item" style="background-image: url({{ $slider3->image_path ? asset('storage/' . $slider3->image_path) : asset('assets/images/slider-main/banner-3.jpg') }})">
-        <div class="slider-content text-right">
-          <div class="container h-100">
-            <div class="row align-items-center h-100">
-              <div class="col-md-12">
-                <h2 class="slide-title" data-animation-in="slideInDown">{{ $slider3->caption_title }}</h2>
-                <h3 class="slide-sub-title" data-animation-in="fadeIn">{{ $slider2->main_title }}</h3>
-                <div data-animation-in="slideInLeft">
-                  <a href="{{ $slider3->contact_url }}" class="slider btn btn-primary" aria-label="contact-with-us">Get Free Quote</a>
-                  <a href="{{ $slider3->services_url }}" class="slider btn btn-primary border" aria-label="learn-more-about-us">Learn
-                    more</a>
+      @foreach($banner as $ban)
+        <div class="banner-carousel-item" style="background-image: url({{ asset('storage/' . $ban->banner_image) ?: asset('assets/images/slider-main/banner-1.jpg') }})">
+          <div class="slider-content text-right">
+            <div class="container h-100">
+              <div class="row align-items-center h-100">
+                <div class="col-md-12">
+                  <h2 class="slide-title" data-animation-in="slideInLeft">{{ $ban->caption_title }}</h2>
+                  <h3 class="slide-sub-title" data-animation-in="slideInRight">{{ $ban->main_title }}</h3>
+                  <p data-animation-in="slideInLeft" data-duration-in="1.2">
+                    <a href="{{ $ban->services_url }}" class="slider btn btn-primary">Our Services</a>
+                    <a href="{{ $ban->contact_url }}" class="slider btn btn-primary border">Contact Now</a>
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="banner-carousel-item" style="background-image: url({{ $slider4->image_path ? asset('storage/' . $slider4->image_path) : asset('assets/images/slider-main/banner-4.jpg') }})">
-        <div class="slider-content text-right">
-          <div class="container h-100">
-            <div class="row align-items-center h-100">
-              <div class="col-md-12">
-                <h2 class="slide-title" data-animation-in="slideInDown">
-                {{ $slider4->caption_title }}
-                </h2>
-                <h3 class="slide-sub-title" data-animation-in="fadeIn">{{ $slider4->main_title }}</h3>
-                <div data-animation-in="slideInLeft">
-                  <a href="{{ $slider4->contact_url }}" class="slider btn btn-primary" aria-label="contact-with-us">Contact Us</a>
-                  <a href="{{ $slider4->services_url }}" class="slider btn btn-primary border" aria-label="learn-more-about-us">Our
-                    Services</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      @endforeach
     </div>
 
     <section class="call-to-action-box no-padding d-none">

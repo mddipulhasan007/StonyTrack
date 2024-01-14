@@ -25,52 +25,24 @@
             </div><!-- project filter end -->
 
             <div class="col-md-12">
-              <div class="row">
-                  <div class="col-lg-4 col-md-6 shuffle-item">
-                      <div class="project-img-container">
-                          <a class="gallery-popup" href="http://stonytrack.com/public/storage/projects/BKIjOul24oIceArbCdYXV617KQSXuDdpPVCrgUAT.jpg" aria-label="project-img">
-                              <img class="img-fluid" src="http://stonytrack.com/public/storage/projects/BKIjOul24oIceArbCdYXV617KQSXuDdpPVCrgUAT.jpg" alt="project-img">
-                              <span class="gallery-icon"><i class="fa fa-plus"></i></span>
-                          </a>
-                          <div class="project-item-info">
-                              <div class="project-item-info-content">
-                                  <h3 class="project-item-title">
-                                      <a href="javascript:void(0)">Media & News Title Here</a>
-                                  </h3>
-                              </div>
+              <div class="row gap-2">
+                @foreach($news as $new)
+                  <div class="col-lg-4 col-md-6 shuffle-item px-2">
+                    <div class="project-img-container">
+                      <a class="gallery-popup" href="{{ asset('storage/' . $new->news_image) }}" aria-label="project-img">
+                          <img class="img-fluid" src="{{ asset('storage/' . $new->news_image) }}" alt="project-img">
+                          <span class="gallery-icon"><i class="fa fa-plus"></i></span>
+                      </a>
+                      <div class="project-item-info">
+                          <div class="project-item-info-content">
+                              <h3 class="project-item-title">
+                                  <a href="javascript:void(0)">{{ $new->title }}</a>
+                              </h3>
                           </div>
                       </div>
+                    </div>
                   </div><!-- shuffle item end -->
-                  <div class="col-lg-4 col-md-6 shuffle-item">
-                      <div class="project-img-container">
-                          <a class="gallery-popup" href="http://stonytrack.com/public/storage/projects/1FWmQgo8CJVLcXCv0cAdYunleizYTo7OQQrzKweV.jpg" aria-label="project-img">
-                              <img class="img-fluid" src="http://stonytrack.com/public/storage/projects/1FWmQgo8CJVLcXCv0cAdYunleizYTo7OQQrzKweV.jpg" alt="project-img">
-                              <span class="gallery-icon"><i class="fa fa-plus"></i></span>
-                          </a>
-                          <div class="project-item-info">
-                              <div class="project-item-info-content">
-                                  <h3 class="project-item-title">
-                                      <a href="javascript:void(0)">Media & News Title Here</a>
-                                  </h3>
-                              </div>
-                          </div>
-                      </div>
-                  </div><!-- shuffle item end -->
-                  <div class="col-lg-4 col-md-6 shuffle-item">
-                      <div class="project-img-container">
-                          <a class="gallery-popup" href="http://stonytrack.com/public/storage/projects/BKIjOul24oIceArbCdYXV617KQSXuDdpPVCrgUAT.jpg" aria-label="project-img">
-                              <img class="img-fluid" src="http://stonytrack.com/public/storage/projects/BKIjOul24oIceArbCdYXV617KQSXuDdpPVCrgUAT.jpg" alt="project-img">
-                              <span class="gallery-icon"><i class="fa fa-plus"></i></span>
-                          </a>
-                          <div class="project-item-info">
-                              <div class="project-item-info-content">
-                                  <h3 class="project-item-title">
-                                      <a href="javascript:void(0)">Media & News Title Here</a>
-                                  </h3>
-                              </div>
-                          </div>
-                      </div>
-                  </div><!-- shuffle item end -->
+                @endforeach
               </div>
             </div>
            
@@ -92,21 +64,13 @@
 
             <div class="col-md-12">
               <div class="row">
-                  <div class="col-lg-4 col-md-6 shuffle-item">
-                  <iframe width="420" height="345" src="https://www.youtube.com/embed/tgbNymZ7vqY">
-                  </iframe>
+                @foreach($news as $new)
+                  <div class="col-lg-4 col-md-6 shuffle-item px-2">
+                    <iframe width="354" height="300" src="{{ $new->video_iframe }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                   </div><!-- shuffle item end -->
-                  <div class="col-lg-4 col-md-6 shuffle-item">
-                  <iframe width="420" height="345" src="https://www.youtube.com/embed/tgbNymZ7vqY">
-                  </iframe>
-                  </div><!-- shuffle item end -->
-                  <div class="col-lg-4 col-md-6 shuffle-item">
-                  <iframe width="420" height="345" src="https://www.youtube.com/embed/tgbNymZ7vqY">
-                  </iframe>
-                  </div><!-- shuffle item end -->
+                @endforeach
               </div>
             </div>
-           
           
         </div><!-- Content row end -->
 
@@ -126,24 +90,13 @@
             <div class="col-md-12">
               <div class="row">
               <ul class="notice-board">
-                <li class="notice urgent">
-                  <a href="#">
-                    <h4>Urgent Notice</h4>
-                    <p>This is an urgent notice that requires immediate attention.</p>
-                  </a>
-                </li>
-                <li class="notice important">
-                  <a href="#">
-                    <h4>Important Notice</h4>
-                    <p>This is an important notice that should be read and understood.</p>
-                  </a>
-                </li>
-                <li class="notice normal">
-                  <a href="#">
-                    <h4>Normal Notice</h4>
-                    <p>This is a regular notice with standard importance.</p>
-                  </a>
-                </li>
+              @foreach($notice->reverse() as $not)
+                  <li class="notice urgent">
+                      <a href="{{ $not->pdf_url }}" target="_blank">
+                          <h4>{{ $not->title }}</h4>
+                      </a>
+                  </li>
+              @endforeach
               </ul>
               </div>
             </div>
@@ -154,13 +107,21 @@
       </div><!-- Conatiner end -->
     </section><!-- Main container end -->
    
-    <style>
-    body {
-      padding: 20px;
+<style>
+    .project-img-container{
+      height: 100%;
+      width: 100%;
+    }
+    .project-img-container a img{
+      height: 100%;
+      width: 100%;
     }
     .notice-board {
       list-style: none;
       padding: 0;
+      height: 225px;
+      overflow: auto;
+      padding-right: 200px
     }
     .notice {
       border: 1px solid #ddd;
@@ -191,4 +152,4 @@
   </style>
 
 
-    @include('layout.frontend.footer')
+@include('layout.frontend.footer')

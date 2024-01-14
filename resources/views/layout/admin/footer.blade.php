@@ -10,9 +10,9 @@
                 , made with ❤️ by
                 <a href="#" target="_blank" class="footer-link fw-bolder">Stony Track</a>
               </div>
-              <div>
+              <!-- <div>
                 <a href="#" target="_blank" class="footer-link me-4">Support</a>
-              </div>
+              </div> -->
             </div>
           </footer>
           <!-- / Footer -->

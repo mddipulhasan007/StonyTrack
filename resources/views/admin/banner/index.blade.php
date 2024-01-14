@@ -1,4 +1,5 @@
 @include('layout.admin.header')
+
 @php
 $authUser = auth()->user();
 @endphp
@@ -7,14 +8,14 @@ $authUser = auth()->user();
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">All /</span> project Manage</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">All /</span> Banner Slider Manage</h4>
 
     <!-- Basic Bootstrap Table -->
     <div class="card">
     <div class="card-header d-flex align-items-center justify-content-between">
-      <h5 class="card-header">Manage projects</h5>
+      <h5 class="card-header">Manage Banner Slider</h5>
       @if(in_array($authUser->role_id,[1,3]))
-      <small class="text-muted float-end"><a class="btn btn-primary" href="{{ url('admin/addproject') }}">Add New project</a></small>
+      <small class="text-muted float-end"><a class="btn btn-primary" href="{{ url('admin/addnewbanner') }}">Add New Banner Slider</a></small>
       @endif
     </div>
       <div class="table-responsive text-nowrap" style="min-height:300px;">
@@ -22,21 +23,21 @@ $authUser = auth()->user();
           <thead>
             <tr>
               <th>ID</th>
-              <th>Title</th>
-              <th>Feature Image</th>
-              <th>Category</th>
+              <th>Banner Image</th>
+              <th>Main Title</th>
+              <th>Caption Title</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
-            @foreach($projects as $project)
+            @foreach($banner as $ban)
                 <tr>
-                    <td><strong>{{ $project->id }}</strong></td>
-                    <td><strong>{{ $project->title }}</strong></td>
+                    <td><strong>{{ $ban->id }}</strong></td>
                     <td>
-                        <img width="60" src="{{ asset('storage/' . $project->feature_image) }}" alt="image" class="square" />
+                        <img width="60" src="{{ asset('storage/' . $ban->banner_image) }}" alt="image" class="square" />
                     </td>
-                    <td><strong>{{ $project->category_id }}</strong></td>
+                    <td><strong>{{ $ban->main_title }}</strong></td>
+                    <td><strong>{{ $ban->caption_title }}</strong></td>
                     <td>
                         <div class="dropdown">
                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -44,10 +45,8 @@ $authUser = auth()->user();
                             </button>
                             @if(in_array($authUser->role_id,[1,3]))
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ route('editproject', ['id' => $project->id]) }}"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                <a class="dropdown-item text-danger" href="{{ route('removeproject', ['id' => $project->id]) }}">
-                                    <i class="bx bx-trash me-1"></i> Delete
-                                </a>
+                                <a class="dropdown-item" href="{{ route('editbanner', ['id' => $ban->id]) }}"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                <a class="dropdown-item text-danger" href="{{ route('removebanner', ['id' => $ban->id]) }}"><i class="bx bx-trash me-1"></i> Delete</a>
                             </div>
                             @endif
                         </div>

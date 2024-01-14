@@ -1,6 +1,7 @@
 @include('layout.admin.header')
 
 <div class="container-xxl">
+  <div class="col-md-6">
     <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
             <!-- Register Card -->
@@ -72,7 +73,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Role</label>
-                            <select class="form-control" name="role_id" required>
+                            <select class="form-control custom-select" name="role_id" required style="color:#00f3ff !important;">
                                 <option value="">Please Select</option>
                                 @foreach(\App\Models\User::ROLES as $key=>$role)
                                     <option value="{{$key}}" @if($key == old('role_id','')) selected @endif>{{$role}}</option>
@@ -82,7 +83,7 @@
                         <div class="mb-3 form-password-toggle">
                             <label class="form-label" for="password">Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="password" required class="form-control" name="password"
+                                <input type="password" id="password" required class="form-control" name="password" autocomplete="new-password"
                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                        aria-describedby="password" />
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
@@ -101,6 +102,7 @@
             <!-- Register Card -->
         </div>
     </div>
+  </div>
 </div>
 
 @include('layout.admin.footer')

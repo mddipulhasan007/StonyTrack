@@ -35,9 +35,9 @@ class User extends Authenticatable
     ];
 
     public const ROLES =[
-        '1' =>"Admin",
-        '2' =>"Author",
-        '3' =>"Editor",
+        1 =>"Admin",
+        2 =>"Author",
+        3 =>"Editor",
     ];
 
     /**

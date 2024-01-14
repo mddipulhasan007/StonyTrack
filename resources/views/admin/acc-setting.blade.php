@@ -1,10 +1,11 @@
 @include('layout.admin.header')
 
-<div class="container-xxl">
+<div class="container-xxl mb-5">
+  <div class="col-md-6">
   <div class="authentication-wrapper authentication-basic container-p-y">
     <div class="authentication-inner">
       <!-- Register Card -->
-      <div class="card">
+      <div class="card mb-5">
         <div class="card-body">
           <!-- Logo -->
           <div class="app-brand justify-content-center">
@@ -57,7 +58,7 @@
             </a>
           </div>
           <!-- /Logo -->
-          <h4 class="mb-2">Setting Change 🚀</h4>
+          <h4 class="mb-4">Setting Change 🚀</h4>
 
           <form id="formAuthentication" class="mb-3" action="{{route('profile.update')}}" method="POST">
             @csrf
@@ -68,22 +69,20 @@
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Change Email</label>
-              <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" value="{{old('email',$user->email??"")}}" />
+              <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" value="{{ old('email', $user->email ?? '') }}" />
             </div>
             <div class="mb-3 form-password-toggle">
               <label class="form-label" for="password">Chnage Password</label>
               <div class="input-group input-group-merge">
-                <input type="password" id="password" class="form-control" name="password"
-                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                  aria-describedby="password" />
-                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  <input type="password" id="password" class="form-control text-white" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" autocomplete="new-password" />
+                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
               </div>
             </div>
 
             <div class="mb-3">
 
             </div>
-            <button type="submit" class="btn btn-primary d-grid w-100">Update Profile</button>
+            <button type="submit" class="btn btn-primary d-grid w-100">Update Profile Setting</button>
           </form>
 
 
@@ -91,6 +90,7 @@
       </div>
       <!-- Register Card -->
     </div>
+  </div>
   </div>
 </div>
 
