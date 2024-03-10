@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('news_image');
-            $table->text('video_iframe');
+            $table->json('news_gallery_image')->nullable();
             $table->timestamps();
         });
     }

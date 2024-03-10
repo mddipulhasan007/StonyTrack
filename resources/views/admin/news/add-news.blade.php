@@ -31,30 +31,22 @@
                   </div>
                 </div>
                 <div class="row mb-5 mt-5">
-                  <label class="col-sm-2 col-form-label" for="formFile">Upload Media & News Image</label>
+                    <label class="col-sm-2 col-form-label">Upload Thumbnail Image</label>
                     <div class="col-sm-10">
-                        <input class="form-control" type="file" name="news_image" id="formFile">
+                        <input class="form-control" type="file" name="news_image" id="formFilethumb" onchange="previewThumbnail(event)">
                         <div class="brand-logo img-preview mt-3">
-                            <img
-                                id="preview"
-                                loading="lazy"
-                                src="{{ isset($newsPath) ? asset('storage/' . $newsPath) : asset('assets/admin/img/no-photo.png') }}"
-                                width="100%"
-                                alt="Stonytrack"
-                            />
+                            <img id="thumb_preview" loading="lazy" src="{{ isset($newsPath) ? asset('storage/' . $newsPath) : asset('assets/admin/img/no-photo.png') }}" width="100%" alt="Stonytrack">
                         </div>
                     </div>
                 </div>
-                <div class="row mb-3">
-                  <label class="col-sm-2 col-form-label" for="basic-icon-default-email">Video Iframe URL</label>
+
+                <div class="row mb-5 mt-5">
+                  <label class="col-sm-2 col-form-label" for="formFile">Upload Gallery Image</label>
                   <div class="col-sm-10">
-                    <div class="input-group input-group-merge">
-                      <span class="input-group-text"><i class="bx bx-text"></i></span>
-                      <input name="video_iframe" type="text" id="basic-icon-default-email" class="form-control" placeholder="Enter youtube video iframe URL"
-                        aria-label="the title" aria-describedby="basic-icon-default-email2" value="" />
-                    </div>
-                  </div>
-                </div>
+                      <input class="form-control" type="file" name="news_gallery_image[]" id="formFileGallery" multiple onchange="previewGallery(event)">
+                      <div class="brand-logo img-preview multi-img-preview mt-3"></div>
+                  </div>  
+              </div>
             </div>
           </div>
         </div>
@@ -81,9 +73,9 @@
   <!-- / Content -->
 
   <script>
-    function previewImage() {
-        var input = document.getElementById('formFile');
-        var preview = document.getElementById('preview');
+    function previewThumbnail(event) {
+        var input = event.target;
+        var preview = document.getElementById('thumb_preview');
         var imgPreview = new FileReader();
 
         imgPreview.onload = function () {
@@ -94,7 +86,31 @@
             imgPreview.readAsDataURL(input.files[0]);
         }
     }
-  </script>
+</script>
+
+<script>
+    function previewGallery(event) {
+        var input = event.target;
+        var preview = input.nextElementSibling; // Get the next sibling, which is the preview container
+        var files = input.files;
+
+        preview.innerHTML = '';
+        if(files) {
+            [].forEach.call(files, function(file) {
+                var reader = new FileReader();
+
+                reader.onload = function(event) {
+                    var img = document.createElement('img');
+                    img.src = event.target.result;
+                    img.width = 100; // Adjust as needed
+                    preview.appendChild(img);
+                }
+
+                reader.readAsDataURL(file);
+            });
+        }
+    }
+</script>
 
 
 @include('layout.admin.footer')

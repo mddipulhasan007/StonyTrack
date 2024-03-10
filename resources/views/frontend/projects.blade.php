@@ -37,7 +37,7 @@
               <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
                 <div class="row">
                   @foreach($projects as $project)
-                    <div class="col-lg-4 col-md-6 shuffle-item" data-groups='@json($project->category->pluck("name"))'>
+                    <div class="col-lg-4 col-md-6 shuffle-item px-3 mb-4" data-groups='@json($project->category->pluck("name"))'>
                         <div class="project-img-container">
                             <a class="gallery-popup" href="{{ $project && $project->feature_image ? asset('storage/' . $project->feature_image) : asset('assets/images/projects/Fire-Alarm System.jpg') }}" aria-label="project-img">
                                 <img class="img-fluid" src="{{ $project && $project->feature_image ? asset('storage/' . $project->feature_image) : asset('assets/images/projects/Fire-Alarm System.jpg') }}" alt="project-img">
@@ -59,7 +59,7 @@
               <div class="tab-pane fade" id="pills-ongoing" role="tabpanel" aria-labelledby="pills-ongoing-tab">
                 <div class="row">
                 @foreach($ongoingProjects as $project)
-                <div class="col-lg-4 col-md-6 shuffle-item" data-groups='@json($project->category->pluck("name"))'>
+                <div class="col-lg-4 col-md-6 shuffle-item px-3 mb-4" data-groups='@json($project->category->pluck("name"))'>
                         <div class="project-img-container">
                             <a class="gallery-popup" href="{{ $project && $project->feature_image ? asset('storage/' . $project->feature_image) : asset('assets/images/projects/Fire-Alarm System.jpg') }}" aria-label="project-img">
                                 <img class="img-fluid" src="{{ $project && $project->feature_image ? asset('storage/' . $project->feature_image) : asset('assets/images/projects/Fire-Alarm System.jpg') }}" alt="project-img">
@@ -81,7 +81,7 @@
               <div class="tab-pane fade" id="pills-completed" role="tabpanel" aria-labelledby="pills-completed-tab">
                 <div class="row">
                 @foreach($completedProjects as $project)
-                  <div class="col-lg-4 col-md-6 shuffle-item" data-groups='@json($project->category->pluck("name"))'>
+                  <div class="col-lg-4 col-md-6 shuffle-item px-3 mb-4" data-groups='@json($project->category->pluck("name"))'>
                       <div class="project-img-container">
                           <a class="gallery-popup" href="{{ $project && $project->feature_image ? asset('storage/' . $project->feature_image) : asset('assets/images/projects/Fire-Alarm System.jpg') }}" aria-label="project-img">
                               <img class="img-fluid" src="{{ $project && $project->feature_image ? asset('storage/' . $project->feature_image) : asset('assets/images/projects/Fire-Alarm System.jpg') }}" alt="project-img">

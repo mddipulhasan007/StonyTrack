@@ -321,7 +321,7 @@
               <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
                 <div class="row">
                   @foreach($projects as $project)
-                    <div class="col-lg-4 col-md-6 shuffle-item" data-groups='@json($project->category->pluck("name"))'>
+                    <div class="col-lg-4 col-md-6 shuffle-item px-3 mb-4" data-groups='@json($project->category->pluck("name"))'>
                         <div class="project-img-container">
                             <a class="gallery-popup" href="{{ $project && $project->feature_image ? asset('storage/' . $project->feature_image) : asset('assets/images/projects/Fire-Alarm System.jpg') }}" aria-label="project-img">
                                 <img class="img-fluid" src="{{ $project && $project->feature_image ? asset('storage/' . $project->feature_image) : asset('assets/images/projects/Fire-Alarm System.jpg') }}" alt="project-img">
@@ -343,7 +343,7 @@
               <div class="tab-pane fade" id="pills-ongoing" role="tabpanel" aria-labelledby="pills-ongoing-tab">
                 <div class="row">
                 @foreach($ongoingProjects as $project)
-                <div class="col-lg-4 col-md-6 shuffle-item" data-groups='@json($project->category->pluck("name"))'>
+                <div class="col-lg-4 col-md-6 shuffle-item px-3 mb-4" data-groups='@json($project->category->pluck("name"))'>
                         <div class="project-img-container">
                             <a class="gallery-popup" href="{{ $project && $project->feature_image ? asset('storage/' . $project->feature_image) : asset('assets/images/projects/Fire-Alarm System.jpg') }}" aria-label="project-img">
                                 <img class="img-fluid" src="{{ $project && $project->feature_image ? asset('storage/' . $project->feature_image) : asset('assets/images/projects/Fire-Alarm System.jpg') }}" alt="project-img">
@@ -365,7 +365,7 @@
               <div class="tab-pane fade" id="pills-completed" role="tabpanel" aria-labelledby="pills-completed-tab">
                 <div class="row">
                 @foreach($completedProjects as $project)
-                  <div class="col-lg-4 col-md-6 shuffle-item" data-groups='@json($project->category->pluck("name"))'>
+                  <div class="col-lg-4 col-md-6 shuffle-item px-3 mb-4" data-groups='@json($project->category->pluck("name"))'>
                       <div class="project-img-container">
                           <a class="gallery-popup" href="{{ $project && $project->feature_image ? asset('storage/' . $project->feature_image) : asset('assets/images/projects/Fire-Alarm System.jpg') }}" aria-label="project-img">
                               <img class="img-fluid" src="{{ $project && $project->feature_image ? asset('storage/' . $project->feature_image) : asset('assets/images/projects/Fire-Alarm System.jpg') }}" alt="project-img">
@@ -582,32 +582,30 @@
         <!--/ Title row end -->
 
         <div class="row">
-          @foreach ($services as $key => $service)
-            @if($key < 3) <!-- Limit to a maximum of 3 items -->
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="latest-post">
-                        <div class="latest-post-media">
-                            <a href="{{ route('service.details', ['slug' => $service->slug]) }}" class="latest-post-img">
-                                <img loading="lazy" class="img-fluid" src="{{ $service['feature_image'] ? asset('storage/' . $service['feature_image']) : asset('assets/images/news/default.jpg') }}" alt="img">
-                            </a>
-                        </div>
-                        <div class="post-body">
-                            <h4 class="post-title">
-                                <a href="{{ route('service.details', ['slug' => $service->slug]) }}" class="d-inline-block">
-                                    {{ $service['title'] }}
-                                </a>
-                            </h4>
-                            <div class="latest-post-meta">
-                                <span class="post-item-date">
-                                    <i class="fa fa-clock-o"></i> {!! $service['content'] !!}
-                                </span>
-                            </div>
-                        </div>
-                    </div><!-- Latest post end -->
-                </div><!-- Post col end -->
-            @endif
-          @endforeach
-        </div>
+    @foreach ($services->slice(-3) as $service)
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="latest-post">
+                <div class="latest-post-media">
+                    <a href="{{ route('service.details', ['slug' => $service->slug]) }}" class="latest-post-img">
+                        <img loading="lazy" class="img-fluid" src="{{ $service['feature_image'] ? asset('storage/' . $service['feature_image']) : asset('assets/images/news/default.jpg') }}" alt="img">
+                    </a>
+                </div>
+                <div class="post-body">
+                    <h4 class="post-title">
+                        <a href="{{ route('service.details', ['slug' => $service->slug]) }}" class="d-inline-block">
+                            {{ $service['title'] }}
+                        </a>
+                    </h4>
+                    <div class="latest-post-meta">
+                        <span class="post-item-date">
+                            <i class="fa fa-clock-o"></i> {!! $service['content'] !!}
+                        </span>
+                    </div>
+                </div>
+            </div><!-- Latest post end -->
+        </div><!-- Post col end -->
+    @endforeach
+</div>
         <!--/ Content row end -->
 
         <div class="general-btn text-center mt-4 d-none">

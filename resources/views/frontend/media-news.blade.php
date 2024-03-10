@@ -26,26 +26,24 @@
 
             <div class="col-md-12">
               <div class="row gap-2">
-                @foreach($news as $new)
+                @foreach($news as $item)
                   <div class="col-lg-4 col-md-6 shuffle-item px-2">
                     <div class="project-img-container">
-                      <a class="gallery-popup" href="{{ asset('storage/' . $new->news_image) }}" aria-label="project-img">
-                          <img class="img-fluid" src="{{ asset('storage/' . $new->news_image) }}" alt="project-img">
-                          <span class="gallery-icon"><i class="fa fa-plus"></i></span>
-                      </a>
-                      <div class="project-item-info">
-                          <div class="project-item-info-content">
-                              <h3 class="project-item-title">
-                                  <a href="javascript:void(0)">{{ $new->title }}</a>
-                              </h3>
+                      <a class="" href="{{ route('news.newsshow', $item->id) }}" aria-label="news-img">
+                        <img class="img-fluid" src="{{ asset('storage/' . $item->news_image) }}" alt="news-img">
+                        <div class="project-item-info">
+                          <div class="project-item-info-content d-flex align-items-center justify-content-center h-100">
+                            <h3 class="project-item-title text-white">
+                              {{ $item->title }}
+                            </h3>
                           </div>
-                      </div>
+                        </div>
+                      </a>
                     </div>
-                  </div><!-- shuffle item end -->
+                  </div>
                 @endforeach
               </div>
-            </div>
-           
+            </div>       
           
         </div><!-- Content row end -->
 
@@ -64,9 +62,9 @@
 
             <div class="col-md-12">
               <div class="row">
-                @foreach($news as $new)
+                @foreach($videos as $video)
                   <div class="col-lg-4 col-md-6 shuffle-item px-2">
-                    <iframe width="354" height="300" src="{{ $new->video_iframe }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <iframe width="354" height="300" src="{{ $video->video_iframe }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                   </div><!-- shuffle item end -->
                 @endforeach
               </div>
@@ -89,17 +87,40 @@
 
             <div class="col-md-12">
               <div class="row">
-              <ul class="notice-board">
-              @foreach($notice->reverse() as $not)
-                  <li class="notice urgent">
-                      <a href="{{ $not->pdf_url }}" target="_blank">
-                          <h4>{{ $not->title }}</h4>
-                      </a>
-                  </li>
-              @endforeach
-              </ul>
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th>Sl No</th>
+                              <th>Title</th>
+                              <th>PDF</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          @php
+                              $slNo = 1;
+                          @endphp
+                          @foreach($notice->reverse() as $not)
+                              <tr>
+                                  <td>{{ $slNo++ }}</td>
+                                  <td>
+                                      <a href="{{ $not->pdf_url }}" target="_blank">
+                                          <h4>{{ $not->title }}</h4>
+                                      </a>
+                                  </td>
+                                  <td>
+                                      <a href="{{ $not->pdf_url }}" target="_blank" title="Open PDF">
+                                          <i class="fas fa-file-pdf"></i>
+                                      </a>
+                                      <a href="{{ $not->pdf_url }}" download title="Download PDF">
+                                          <i class="fas fa-download"></i>
+                                      </a>
+                                  </td>
+                              </tr>
+                          @endforeach
+                      </tbody>
+                  </table>
               </div>
-            </div>
+          </div>
            
           
         </div><!-- Content row end -->
@@ -115,6 +136,7 @@
     .project-img-container a img{
       height: 100%;
       width: 100%;
+      max-height: 300px;
     }
     .notice-board {
       list-style: none;
@@ -148,6 +170,9 @@
     .normal {
       border-color: #007bff;
       background-color: #cce5ff;
+    }
+    .shuffle-item .project-img-container .project-item-info {
+      top: 11%;
     }
   </style>
 

@@ -6,13 +6,7 @@
             <div class="col-lg-12">
               <div class="banner-heading">
                 <h1 class="banner-title">Contact</h1>
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb justify-content-center">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Company</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
-                  </ol>
-                </nav>
+                
               </div>
             </div><!-- Col end -->
           </div><!-- Row end -->
@@ -39,8 +33,7 @@
               </span>
               <div class="ts-service-box-content">
                 <h4>Visit Our Office</h4>
-                <p>75-76, (1ST Floor), Janata Housing, Ring Road
-                  Adabor, Dhaka-1207, Bangladesh</p>
+                {{ $header->address ?? '' }}
               </div>
             </div>
           </div><!-- Col 1 end -->
@@ -52,7 +45,7 @@
               </span>
               <div class="ts-service-box-content">
                 <h4>Email Us</h4>
-                <p>info@stonytrack.com</p>
+                <p>{{ $header->email ?? '' }}</p>
               </div>
             </div>
           </div><!-- Col 2 end -->
@@ -64,7 +57,7 @@
               </span>
               <div class="ts-service-box-content">
                 <h4>Call Us</h4>
-                <p>01997719933</p>
+                <p>{{ $header->phone ?? '' }}</p>
               </div>
             </div>
           </div><!-- Col 3 end -->

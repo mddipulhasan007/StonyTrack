@@ -19,6 +19,18 @@
             width: 100%;
             height: auto;
         }
+
+        &.multi-img-preview {
+            height: 130px !important;
+            width: inherit;
+            justify-content: flex-start;
+            gap: 1rem;
+
+            img {
+                width: 100px;
+                height: 100px;
+            }
+        }
     }
 
     &.slider-area {

@@ -23,7 +23,7 @@ $authUser = auth()->user();
             <tr>
               <th>ID</th>
               <th>Title</th>
-              <th>Media & News Image</th>
+              <th>Thumbnail Image</th>
               <th>Action</th>
             </tr>
           </thead>

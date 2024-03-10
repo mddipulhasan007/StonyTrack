@@ -26,6 +26,7 @@ use App\Models\AboutPage;
 use App\Models\AboutContent;
 use App\Models\ServiceContent;
 use App\Models\News;
+use App\Models\Video;
 use App\Models\Banner;
 use App\Models\Notice;
 use App\Models\Team;
@@ -57,9 +58,7 @@ class AdminController extends Controller
 
     public function header(Request $request)
     {
-        if (!in_array(auth()->user->role_id,[1,3])){
-            abort('403');
-        }
+        
 //        if (!in_array(auth()->user->role_id,[2,3])){
 //            abort('403');
 //        }
@@ -394,24 +393,26 @@ class AdminController extends Controller
                 'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'name' => 'required|string',
                 'qualification' => 'required|string',
-                'short_content' => 'required|string',
+                'short_content' => 'nullable|string', // Allow NULL or non-empty string
             ]);
 
             // Upload feature image and save to the database
             $profileImagePath = $request->file('profile_image')->store('teams', 'public');
 
+            // Set short_content to null if it's not provided
+            $shortContent = $request->filled('short_content') ? $request->input('short_content') : null;
+
             Team::create([
                 'profile_image' => $profileImagePath,
                 'name' => $request->input('name'),
                 'qualification' => $request->input('qualification'),
-                'short_content' => $request->input('short_content'),
+                'short_content' => $shortContent,
             ]);
 
             return redirect()->route('teams')->with('success', 'Teams added successfully');
         }
 
         // Fetch categories to be used in the form
-        $categories = Category::all();
 
         return view('admin.teams.add-team');
     }
@@ -462,28 +463,31 @@ class AdminController extends Controller
         );
     }
 
-    public function notices(Request $request){
-        $notice = Notice::all();
-        return view('admin.notice.index', 
-            compact('notice')
-        );
-    }
-
     public function addnewnews(Request $request)
     {
         if ($request->isMethod('post')) {
             $request->validate([
                 'news_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'news_gallery_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'title' => 'required|string',
-                'video_iframe' => 'required|string',
             ]);
 
             $newsImagePath = $request->file('news_image')->store('news', 'public');
+            $galleryImages = $request->file('news_gallery_image');
+
+            $galleryImagePaths = [];
+            foreach ($galleryImages as $image) {
+                $imagePath = $image->store('news', 'public');
+                $galleryImagePaths[] = $imagePath;
+            }
+
+            // Convert array to JSON before saving
+            $galleryImagesJson = json_encode($galleryImagePaths);
 
             News::create([
-                'news_image' => $newsImagePath,
                 'title' => $request->input('title'),
-                'video_iframe' => $request->input('video_iframe'),
+                'news_image' => $newsImagePath,
+                'news_gallery_image' => $galleryImagesJson,
             ]);
 
             return redirect()->route('newses')->with('success', 'News added successfully');
@@ -499,24 +503,47 @@ class AdminController extends Controller
         if ($request->isMethod('post')) {
             $rules = [
                 'title' => 'required|string',
-                'video_iframe' => 'required|string',
             ];
 
             if ($request->hasFile('news_image')) {
                 $rules['news_image'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048';
             }
 
+            if ($request->hasFile('news_gallery_image')) {
+                $rules['news_gallery_image.*'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+            }
+
             $request->validate($rules);
 
-            $news->update([
+            $data = [
                 'title' => $request->input('title'),
-                'video_iframe' => $request->input('video_iframe'),
-            ]);
+            ];
 
+            // Update thumbnail image if uploaded
             if ($request->hasFile('news_image')) {
                 $newsImagePath = $request->file('news_image')->store('news', 'public');
-                $news->update(['news_image' => $newsImagePath]);
+                $data['news_image'] = $newsImagePath;
+                // Delete old thumbnail image if it exists
+                Storage::disk('public')->delete($request->input('current_image'));
             }
+
+            // Update gallery images if uploaded
+            if ($request->hasFile('news_gallery_image')) {
+                $galleryImagePaths = [];
+                foreach ($request->file('news_gallery_image') as $galleryImage) {
+                    $galleryImagePath = $galleryImage->store('news/gallery', 'public');
+                    $galleryImagePaths[] = $galleryImagePath;
+                }
+                $data['news_gallery_image'] = $galleryImagePaths;
+                // Delete old gallery images if they exist
+                $currentGallery = json_decode($request->input('current_gallery'), true);
+                foreach ($currentGallery as $image) {
+                    Storage::disk('public')->delete($image);
+                }
+            }
+
+            // Update the news data
+            $news->update($data);
 
             return redirect()->route('newses')->with('success', 'News updated successfully');
         }
@@ -530,6 +557,71 @@ class AdminController extends Controller
         $news->delete();
 
         return redirect()->route('newses')->with('success', 'News removed successfully.');
+    }
+
+    public function videos()
+    {
+        $videos = Video::all();
+        return view('admin.videos.index', compact('videos'));
+    }
+
+    public function addnewvideo(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'video_title' => 'required|string',
+                'video_iframe' => 'required|string',
+            ]);
+
+            Video::create([
+                'video_title' => $request->input('video_title'),
+                'video_iframe' => $request->input('video_iframe'),
+            ]);
+
+            return redirect()->route('videos')->with('success', 'Video added successfully');
+        }
+        return view('admin.videos.add-video');    
+    }
+
+    public function editvideo(Request $request, $id)
+    {
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'video_title' => 'required|string',
+                'video_iframe' => 'required|string',
+            ]);
+
+            $video = Video::findOrFail($id);
+
+            $video->update([
+                'video_title' => $request->input('video_title'),
+                'video_iframe' => $request->input('video_iframe'),
+            ]);
+
+            return redirect()->route('videos')->with('success', 'Video updated successfully');
+        }
+
+        // Load the video to edit
+        $video = Video::findOrFail($id);
+
+        return view('admin.videos.edit-video', compact('video'));
+    }
+
+
+    public function removevideo($id)
+    {
+        $video = Video::findOrFail($id);
+        $video->delete();
+
+        return redirect()->route('videos')->with('success', 'Video removed successfully');
+    }
+
+    
+    public function notices(Request $request){
+        $notice = Notice::all();
+        return view('admin.notice.index', 
+            compact('notice')
+        );
     }
 
     public function addnewnotice(Request $request)

@@ -43,7 +43,6 @@
 <script src="{{ asset('assets/admin/js/main.js') }}"></script>
 <script src="{{ asset('assets/admin/js/dashboards-analytics.js') }}"></script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
-  
 
 </body>
 

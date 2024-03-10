@@ -151,40 +151,35 @@
 
                 <div id="navbar-collapse" class="collapse navbar-collapse custom-main-nav">
                   <ul class="nav navbar-nav mr-auto">
-                    <li class="nav-item dropdown active">
-                      <a href="{{ url('/') }}" class="nav-link ">Home</a>
+                    <li class="nav-item dropdown {{ request()->is('/') ? 'active' : '' }}">
+                        <a href="{{ url('/') }}" class="nav-link">Home</a>
                     </li>
-
-                    <li class="nav-item dropdown">
-                      <a href="{{ ('/about') }}" class="nav-link">About Us</a>
-                      <!-- <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Overview</a></li>
-                        <li><a href="#">Our Team</a></li>
-                        <li><a href="#">Quality Management Policy</a></li>
-                        <li><a href="#">Gallery</a></li>
-                      </ul> -->
+                
+                    <li class="nav-item {{ request()->is('about') ? 'active' : '' }}">
+                        <a href="{{ url('/about') }}" class="nav-link">About Us</a>
                     </li>
-
+                
                     <li class="nav-item dropdown">
-                      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Products & Services <i
-                        class="fa fa-angle-down"></i></a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Products & Services <i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu" role="menu">
-                          @foreach($categories as $category)
-                            <li><a href="{{ route('categories.show', $category->slug) }}">{{ $category->name }}</a></li>
-                          @endforeach
+                            @foreach($categories as $category)
+                                <li><a href="{{ route('categories.show', $category->slug) }}">{{ $category->name }}</a></li>
+                            @endforeach
                         </ul>
                     </li>
-
-                    <li class="nav-item dropdown">
-                      <a href="{{ ('/projects') }}" class="nav-link">Projects</a>
+                
+                    <li class="nav-item {{ request()->is('projects') ? 'active' : '' }}">
+                        <a href="{{ url('/projects') }}" class="nav-link">Projects</a>
                     </li>
-
-                    <li class="nav-item dropdown">
-                      <a href="{{ ('/medianews') }}" class="nav-link">Media & News </a>
+                
+                    <li class="nav-item {{ request()->is('medianews') ? 'active' : '' }}">
+                        <a href="{{ url('/medianews') }}" class="nav-link">Media & News </a>
                     </li>
-
-                    <li class="nav-item"><a class="nav-link" href="{{ ('/contact') }}">Contact Us </a></li>
-                  </ul>
+                
+                    <li class="nav-item {{ request()->is('contact') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('/contact') }}">Contact Us</a>
+                    </li>
+                </ul>
                 </div>
               </nav>
             </div>

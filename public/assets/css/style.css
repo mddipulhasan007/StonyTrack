@@ -81,6 +81,11 @@ body {
   padding: 0;
 }
 
+.banner-carousel{
+    max-height:550px !important;
+    overflow:hidden;
+}
+
 .body-inner {
   position: relative;
   overflow: hidden;
@@ -787,7 +792,7 @@ ul.top-info-box li {
     text-align: center;
     margin: 0;
     flex: 0 0 100%;
-    margin-top: 15px;
+    margin-top: 0px;
   }
 }
 
@@ -819,8 +824,8 @@ ul.top-info-box li .info-box .info-box-title {
   font-size: 14px;
   margin-bottom: 8px;
   line-height: normal;
-  min-width: 140px;
-  max-width: 185px;
+  min-width: 105px;
+  max-width: 210px;
 }
 
 @media (max-width:767px) {
@@ -3624,6 +3629,10 @@ label {
   color: #00acee;
 }
 
+.header-get-a-quote .footer-social ul li:nth-child(3) a i {
+  color: #f70404;
+}
+
 .header-get-a-quote .footer-social ul li:nth-child(4) a i {
   color: #42BE52;
 }
@@ -3642,7 +3651,7 @@ label {
   }
 
   ul.top-info-box li.header-get-a-quote {
-    display: none;
+    /*display: none;*/
   }
 
   ul.top-info-box {

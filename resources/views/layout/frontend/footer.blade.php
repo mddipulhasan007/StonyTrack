@@ -37,10 +37,10 @@
                 <br>
                 <br>
                 <ul class="list-arrow">
-                  <li><span class="text-right">
-                      <a style="hover:#FFB600;" class="link" target="_blank" href="http://stonytrack.com:2095/">Web Mail
-                        URL Link: stonytrack.com/webmail</a></li>
-                </ul></span>
+                  <span class="text-left">
+                      Web Mail URL Link: <a style="color:#fff; hover:#EFB601 !important;" class="link web-link" target="_blank" href="https://stonytrack.com/webmail"> stonytrack.com/webmail</a>
+                  </span>
+                </ul>
               </div>
             </div><!-- Col end -->
 
@@ -92,6 +92,12 @@
       </div><!-- Copyright end -->
     </footer><!-- Footer end -->
 
+<style>
+    a.web-link:hover{
+    color: #F7941D !important;
+};
+    }
+</style>
 
     <!-- Javascript Files
   ================================================== -->

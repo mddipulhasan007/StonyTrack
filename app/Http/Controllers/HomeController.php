@@ -18,6 +18,7 @@ use App\Models\AboutPage;
 use App\Models\Team;
 use App\Models\Banner;
 use App\Models\News;
+use App\Models\Video;
 use App\Models\Notice;
 use App\Models\Category;
 use App\Models\Project;
@@ -239,6 +240,7 @@ class HomeController extends Controller
         $header = Header::first();
         $footer = Footer::first();
         $news = News::all();
+        $videos = Video::all();
         $notice = Notice::all();
         $categories = Category::all();
         return view('frontend.media-news', 
@@ -247,7 +249,19 @@ class HomeController extends Controller
         'header' => $header,
         'footer' => $footer,
         'news' => $news,
+        'videos' => $videos,
         'notice' => $notice,
         ]);
+    }
+
+    public function newsshow($id)
+    {
+        $header = Header::first();
+        $footer = Footer::first();
+        $notice = Notice::all();
+        $categories = Category::all();
+        $news = News::findOrFail($id);
+
+        return view('frontend.news.show', compact('news', 'header', 'footer', 'notice', 'categories'));
     }
 }

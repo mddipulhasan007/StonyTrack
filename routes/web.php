@@ -64,6 +64,7 @@ Route::any('admin/editprojectcategory/{id}', [App\Http\Controllers\AdminControll
 Route::any('admin/removeprojectcategory/{id}', [App\Http\Controllers\AdminController::class, 'removeprojectcategory'])->name('removeprojectcategory');
 
 Route::get('/medianews', [App\Http\Controllers\HomeController::class, 'medianews'])->name('medianews');
+Route::get('/news/{id}', [App\Http\Controllers\HomeController::class, 'newsshow'])->name('news.newsshow');
 
 Route::get('/categories', [App\Http\Controllers\HomeController::class, 'catindex'])->name('categories.catindex');
 Route::get('/categories/{slug}', [App\Http\Controllers\HomeController::class, 'show'])->name('categories.show');
@@ -96,6 +97,11 @@ Route::any('admin/newses', [App\Http\Controllers\AdminController::class, 'newses
 Route::any('admin/addnewnews', [App\Http\Controllers\AdminController::class, 'addnewnews'])->name('addnewnews');
 Route::any('admin/editnews/{id}', [App\Http\Controllers\AdminController::class, 'editnews'])->name('editnews');
 Route::any('admin/removenews/{id}', [App\Http\Controllers\AdminController::class, 'removenews'])->name('removenews');
+
+Route::any('admin/videos', [App\Http\Controllers\AdminController::class, 'videos'])->name('videos');
+Route::any('admin/addnewvideo', [App\Http\Controllers\AdminController::class, 'addnewvideo'])->name('addnewvideo');
+Route::any('admin/editvideo/{id}', [App\Http\Controllers\AdminController::class, 'editvideo'])->name('editvideo');
+Route::any('admin/removevideo/{id}', [App\Http\Controllers\AdminController::class, 'removevideo'])->name('removevideo');
 
 Route::any('admin/notices', [App\Http\Controllers\AdminController::class, 'notices'])->name('notices');
 Route::any('admin/addnewnotice', [App\Http\Controllers\AdminController::class, 'addnewnotice'])->name('addnewnotice');
